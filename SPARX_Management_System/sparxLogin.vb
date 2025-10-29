@@ -1,4 +1,12 @@
-﻿Public Class sparxLogin
+﻿Imports System.Collections.Specialized
+Imports System.Net
+Imports System.Text
+Imports System.Text.RegularExpressions
+
+Imports SHA256 = System.Security.Cryptography.SHA256
+Imports MySql.Data.MySqlClient
+
+Public Class sparxLogin
     Private Sub sparxLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load, MyBase.Resize
         ' Tip: You might want to set the default bold label here, for example:
         ' UserRole_Click(btnSuperAdmin, Nothing)
@@ -30,6 +38,10 @@
 
 
     Private Sub lnkForgot_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
+
+    End Sub
+
+    Private Sub chkRemember_CheckedChanged(sender As Object, e As EventArgs)
 
     End Sub
 
@@ -110,15 +122,66 @@
 
     End Sub
 
+    Private Const API_URL As String = "http://10.37.52.111/sparx/api.php"
+
+    Private Function IsValidEmail(ByVal email As String) As Boolean
+
+        Dim pattern As String = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        Return Regex.IsMatch(email, pattern)
+
+    End Function
+
     Private Sub btnSignup_Click(sender As Object, e As EventArgs) Handles btnSignup.Click
 
+        Dim email As String = txtEmail.Text
+        Dim password As String = txtPassword.Text
+
+        If String.IsNullOrEmpty(email) And String.IsNullOrEmpty(password) Then
+            MsgBox("Please enter both an email and a password to sign up.")
+            Exit Sub
+
+        ElseIf String.IsNullOrEmpty(email) Then
+            MsgBox("Please enter your email.")
+            Exit Sub
+
+        ElseIf String.IsNullOrEmpty(password) Then
+            MsgBox("Please enter your password.")
+            Exit Sub
+
+        End If
+
+        If Not IsValidEmail(email) Then
+            MsgBox("Please enter a valid email address.")
+            Exit Sub
+        End If
+
+        Try
+            Using client As New WebClient()
+                Dim data As New NameValueCollection()
+                data.Add("action", "signup")
+                data.Add("email", email)
+                data.Add("password", password)
+
+                Dim responseBytes As Byte() = client.UploadValues(API_URL, "POST", data)
+                Dim responseString As String = Encoding.UTF8.GetString(responseBytes)
+
+                If responseString.Contains("""status"":""success""") Then
+                    MsgBox("Sign up successful!")
+                    txtEmail.Text = ""
+                    txtPassword.Text = ""
+
+                Else
+                    MsgBox("Sign up failed: " & responseString)
+
+                End If
+            End Using
+
+        Catch ex As Exception
+            MsgBox("Error connecting to server: " & ex.Message)
+        End Try
     End Sub
 
     Private Sub line_Click(sender As Object, e As EventArgs) Handles line.Click
-
-    End Sub
-
-    Private Sub lblEmail_Click(sender As Object, e As EventArgs) Handles lblEmail.Click
 
     End Sub
 End Class

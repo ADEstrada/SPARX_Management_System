@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class dashboardSuperAdmin
+Partial Class SalesSuperAdmin
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,20 +22,16 @@ Partial Class dashboardSuperAdmin
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(dashboardSuperAdmin))
-        pnlHeader = New Panel()
-        PictureBox1 = New PictureBox()
-        pnlSystemOnline = New PanelRound()
-        systemOnline = New Label()
-        btnNotification = New PictureBox()
-        overview = New Label()
-        lblDashboardSuperAdmin = New Label()
-        pnlMenu = New Panel()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(SalesSuperAdmin))
         PlansBtn = New Button()
         HistoryBtn = New Button()
         NetworkMapBtn = New Button()
         BillingBtn = New Button()
         SubscriberBtn = New Button()
+        btnNotification = New PictureBox()
+        overview = New Label()
+        lblSalesSuperAdmin = New Label()
+        systemOnline = New Label()
         PayrollBtn = New Button()
         InventoryBtn = New Button()
         ServiceBtn = New Button()
@@ -44,122 +40,18 @@ Partial Class dashboardSuperAdmin
         DashboardBtn = New Button()
         line = New Label()
         PictureBox2 = New PictureBox()
-        PanelRound2 = New PanelRound()
-        LblPendingServices = New Label()
-        PanelRound1 = New PanelRound()
-        LblActiveInstallation = New Label()
-        PanelRound3 = New PanelRound()
-        LblMothlyRev = New Label()
-        PanelRound4 = New PanelRound()
-        LblTotalSubs = New Label()
-        pnlHeader.SuspendLayout()
+        PictureBox1 = New PictureBox()
+        pnlSystemOnline = New PanelRound()
+        pnlMenu = New Panel()
+        pnlHeader = New Panel()
+        LblSalesReport = New Label()
+        CType(btnNotification, ComponentModel.ISupportInitialize).BeginInit()
+        CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         pnlSystemOnline.SuspendLayout()
-        CType(btnNotification, ComponentModel.ISupportInitialize).BeginInit()
         pnlMenu.SuspendLayout()
-        CType(PictureBox2, ComponentModel.ISupportInitialize).BeginInit()
-        PanelRound2.SuspendLayout()
-        PanelRound1.SuspendLayout()
-        PanelRound3.SuspendLayout()
-        PanelRound4.SuspendLayout()
+        pnlHeader.SuspendLayout()
         SuspendLayout()
-        ' 
-        ' pnlHeader
-        ' 
-        pnlHeader.BackColor = Color.White
-        pnlHeader.Controls.Add(PictureBox1)
-        pnlHeader.Controls.Add(pnlSystemOnline)
-        pnlHeader.Controls.Add(btnNotification)
-        pnlHeader.Controls.Add(overview)
-        pnlHeader.Controls.Add(lblDashboardSuperAdmin)
-        pnlHeader.Location = New Point(271, 0)
-        pnlHeader.Margin = New Padding(3, 4, 3, 4)
-        pnlHeader.Name = "pnlHeader"
-        pnlHeader.Size = New Size(1454, 89)
-        pnlHeader.TabIndex = 0
-        ' 
-        ' PictureBox1
-        ' 
-        PictureBox1.Image = My.Resources.Resources.notificationBell
-        PictureBox1.Location = New Point(1382, 29)
-        PictureBox1.Margin = New Padding(3, 4, 3, 4)
-        PictureBox1.Name = "PictureBox1"
-        PictureBox1.Size = New Size(27, 32)
-        PictureBox1.TabIndex = 4
-        PictureBox1.TabStop = False
-        ' 
-        ' pnlSystemOnline
-        ' 
-        pnlSystemOnline.BackColor = Color.WhiteSmoke
-        pnlSystemOnline.Controls.Add(systemOnline)
-        pnlSystemOnline.CornerRadius = 8
-        pnlSystemOnline.Location = New Point(1215, 21)
-        pnlSystemOnline.Margin = New Padding(3, 4, 3, 4)
-        pnlSystemOnline.Name = "pnlSystemOnline"
-        pnlSystemOnline.Size = New Size(143, 47)
-        pnlSystemOnline.TabIndex = 2
-        ' 
-        ' systemOnline
-        ' 
-        systemOnline.AutoSize = True
-        systemOnline.Font = New Font("Verdana", 9F)
-        systemOnline.Location = New Point(30, 13)
-        systemOnline.Name = "systemOnline"
-        systemOnline.Size = New Size(115, 18)
-        systemOnline.TabIndex = 0
-        systemOnline.Text = "System Online"
-        ' 
-        ' btnNotification
-        ' 
-        btnNotification.Image = CType(resources.GetObject("btnNotification.Image"), Image)
-        btnNotification.Location = New Point(1679, 20)
-        btnNotification.Margin = New Padding(3, 4, 3, 4)
-        btnNotification.Name = "btnNotification"
-        btnNotification.Size = New Size(27, 32)
-        btnNotification.TabIndex = 3
-        btnNotification.TabStop = False
-        ' 
-        ' overview
-        ' 
-        overview.AutoSize = True
-        overview.ForeColor = SystemColors.ControlDarkDark
-        overview.Location = New Point(30, 48)
-        overview.Name = "overview"
-        overview.Size = New Size(272, 20)
-        overview.TabIndex = 2
-        overview.Text = "Overview of Sparx Fiber Internet System"
-        ' 
-        ' lblDashboardSuperAdmin
-        ' 
-        lblDashboardSuperAdmin.AutoSize = True
-        lblDashboardSuperAdmin.Font = New Font("Verdana", 12F)
-        lblDashboardSuperAdmin.Location = New Point(30, 21)
-        lblDashboardSuperAdmin.Name = "lblDashboardSuperAdmin"
-        lblDashboardSuperAdmin.Size = New Size(119, 25)
-        lblDashboardSuperAdmin.TabIndex = 0
-        lblDashboardSuperAdmin.Text = "Dashboard"
-        ' 
-        ' pnlMenu
-        ' 
-        pnlMenu.BackColor = Color.FromArgb(CByte(29), CByte(41), CByte(61))
-        pnlMenu.Controls.Add(PlansBtn)
-        pnlMenu.Controls.Add(HistoryBtn)
-        pnlMenu.Controls.Add(NetworkMapBtn)
-        pnlMenu.Controls.Add(BillingBtn)
-        pnlMenu.Controls.Add(SubscriberBtn)
-        pnlMenu.Controls.Add(PayrollBtn)
-        pnlMenu.Controls.Add(InventoryBtn)
-        pnlMenu.Controls.Add(ServiceBtn)
-        pnlMenu.Controls.Add(InstallationBtn)
-        pnlMenu.Controls.Add(SalesBtn)
-        pnlMenu.Controls.Add(DashboardBtn)
-        pnlMenu.Controls.Add(line)
-        pnlMenu.Controls.Add(PictureBox2)
-        pnlMenu.Location = New Point(0, 0)
-        pnlMenu.Margin = New Padding(3, 4, 3, 4)
-        pnlMenu.Name = "pnlMenu"
-        pnlMenu.Size = New Size(274, 961)
-        pnlMenu.TabIndex = 1
         ' 
         ' PlansBtn
         ' 
@@ -250,6 +142,46 @@ Partial Class dashboardSuperAdmin
         SubscriberBtn.TextAlign = ContentAlignment.MiddleLeft
         SubscriberBtn.UseCompatibleTextRendering = True
         SubscriberBtn.UseVisualStyleBackColor = True
+        ' 
+        ' btnNotification
+        ' 
+        btnNotification.Image = CType(resources.GetObject("btnNotification.Image"), Image)
+        btnNotification.Location = New Point(1679, 20)
+        btnNotification.Margin = New Padding(3, 4, 3, 4)
+        btnNotification.Name = "btnNotification"
+        btnNotification.Size = New Size(27, 32)
+        btnNotification.TabIndex = 3
+        btnNotification.TabStop = False
+        ' 
+        ' overview
+        ' 
+        overview.AutoSize = True
+        overview.ForeColor = SystemColors.ControlDarkDark
+        overview.Location = New Point(30, 48)
+        overview.Name = "overview"
+        overview.Size = New Size(223, 20)
+        overview.TabIndex = 2
+        overview.Text = "Manage sales data and analytics"
+        ' 
+        ' lblSalesSuperAdmin
+        ' 
+        lblSalesSuperAdmin.AutoSize = True
+        lblSalesSuperAdmin.Font = New Font("Verdana", 12F)
+        lblSalesSuperAdmin.Location = New Point(30, 21)
+        lblSalesSuperAdmin.Name = "lblSalesSuperAdmin"
+        lblSalesSuperAdmin.Size = New Size(66, 25)
+        lblSalesSuperAdmin.TabIndex = 0
+        lblSalesSuperAdmin.Text = "Sales"
+        ' 
+        ' systemOnline
+        ' 
+        systemOnline.AutoSize = True
+        systemOnline.Font = New Font("Verdana", 9F)
+        systemOnline.Location = New Point(30, 13)
+        systemOnline.Name = "systemOnline"
+        systemOnline.Size = New Size(115, 18)
+        systemOnline.TabIndex = 0
+        systemOnline.Text = "System Online"
         ' 
         ' PayrollBtn
         ' 
@@ -377,142 +309,115 @@ Partial Class dashboardSuperAdmin
         PictureBox2.TabIndex = 2
         PictureBox2.TabStop = False
         ' 
-        ' PanelRound2
+        ' PictureBox1
         ' 
-        PanelRound2.BackColor = Color.White
-        PanelRound2.Controls.Add(LblPendingServices)
-        PanelRound2.Location = New Point(1365, 123)
-        PanelRound2.Name = "PanelRound2"
-        PanelRound2.Size = New Size(305, 174)
-        PanelRound2.TabIndex = 5
+        PictureBox1.Image = My.Resources.Resources.notificationBell
+        PictureBox1.Location = New Point(1382, 29)
+        PictureBox1.Margin = New Padding(3, 4, 3, 4)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(27, 32)
+        PictureBox1.TabIndex = 4
+        PictureBox1.TabStop = False
         ' 
-        ' LblPendingServices
+        ' pnlSystemOnline
         ' 
-        LblPendingServices.AutoSize = True
-        LblPendingServices.Location = New Point(36, 21)
-        LblPendingServices.Name = "LblPendingServices"
-        LblPendingServices.Size = New Size(119, 20)
-        LblPendingServices.TabIndex = 3
-        LblPendingServices.Text = "Pending Services"
+        pnlSystemOnline.BackColor = Color.WhiteSmoke
+        pnlSystemOnline.Controls.Add(systemOnline)
+        pnlSystemOnline.CornerRadius = 8
+        pnlSystemOnline.Location = New Point(1215, 21)
+        pnlSystemOnline.Margin = New Padding(3, 4, 3, 4)
+        pnlSystemOnline.Name = "pnlSystemOnline"
+        pnlSystemOnline.Size = New Size(143, 47)
+        pnlSystemOnline.TabIndex = 2
         ' 
-        ' PanelRound1
+        ' pnlMenu
         ' 
-        PanelRound1.BackColor = Color.White
-        PanelRound1.Controls.Add(LblActiveInstallation)
-        PanelRound1.Location = New Point(1025, 123)
-        PanelRound1.Name = "PanelRound1"
-        PanelRound1.Size = New Size(305, 174)
-        PanelRound1.TabIndex = 6
+        pnlMenu.BackColor = Color.FromArgb(CByte(29), CByte(41), CByte(61))
+        pnlMenu.Controls.Add(PlansBtn)
+        pnlMenu.Controls.Add(HistoryBtn)
+        pnlMenu.Controls.Add(NetworkMapBtn)
+        pnlMenu.Controls.Add(BillingBtn)
+        pnlMenu.Controls.Add(SubscriberBtn)
+        pnlMenu.Controls.Add(PayrollBtn)
+        pnlMenu.Controls.Add(InventoryBtn)
+        pnlMenu.Controls.Add(ServiceBtn)
+        pnlMenu.Controls.Add(InstallationBtn)
+        pnlMenu.Controls.Add(SalesBtn)
+        pnlMenu.Controls.Add(DashboardBtn)
+        pnlMenu.Controls.Add(line)
+        pnlMenu.Controls.Add(PictureBox2)
+        pnlMenu.Location = New Point(1, 0)
+        pnlMenu.Margin = New Padding(3, 4, 3, 4)
+        pnlMenu.Name = "pnlMenu"
+        pnlMenu.Size = New Size(274, 961)
+        pnlMenu.TabIndex = 10
         ' 
-        ' LblActiveInstallation
+        ' pnlHeader
         ' 
-        LblActiveInstallation.AutoSize = True
-        LblActiveInstallation.Location = New Point(25, 21)
-        LblActiveInstallation.Name = "LblActiveInstallation"
-        LblActiveInstallation.Size = New Size(133, 20)
-        LblActiveInstallation.TabIndex = 2
-        LblActiveInstallation.Text = "Active Installations"
+        pnlHeader.BackColor = Color.White
+        pnlHeader.Controls.Add(PictureBox1)
+        pnlHeader.Controls.Add(pnlSystemOnline)
+        pnlHeader.Controls.Add(btnNotification)
+        pnlHeader.Controls.Add(overview)
+        pnlHeader.Controls.Add(lblSalesSuperAdmin)
+        pnlHeader.Location = New Point(272, 0)
+        pnlHeader.Margin = New Padding(3, 4, 3, 4)
+        pnlHeader.Name = "pnlHeader"
+        pnlHeader.Size = New Size(1454, 89)
+        pnlHeader.TabIndex = 9
         ' 
-        ' PanelRound3
+        ' LblSalesReport
         ' 
-        PanelRound3.BackColor = Color.White
-        PanelRound3.Controls.Add(LblMothlyRev)
-        PanelRound3.Location = New Point(679, 123)
-        PanelRound3.Name = "PanelRound3"
-        PanelRound3.Size = New Size(305, 174)
-        PanelRound3.TabIndex = 7
+        LblSalesReport.AutoSize = True
+        LblSalesReport.Font = New Font("Verdana", 12F)
+        LblSalesReport.Location = New Point(302, 123)
+        LblSalesReport.Name = "LblSalesReport"
+        LblSalesReport.Size = New Size(140, 25)
+        LblSalesReport.TabIndex = 5
+        LblSalesReport.Text = "Sales Report"
         ' 
-        ' LblMothlyRev
-        ' 
-        LblMothlyRev.AutoSize = True
-        LblMothlyRev.Location = New Point(23, 21)
-        LblMothlyRev.Name = "LblMothlyRev"
-        LblMothlyRev.Size = New Size(123, 20)
-        LblMothlyRev.TabIndex = 1
-        LblMothlyRev.Text = "Monthly Revenue"
-        ' 
-        ' PanelRound4
-        ' 
-        PanelRound4.BackColor = Color.White
-        PanelRound4.Controls.Add(LblTotalSubs)
-        PanelRound4.Location = New Point(336, 123)
-        PanelRound4.Name = "PanelRound4"
-        PanelRound4.Size = New Size(305, 174)
-        PanelRound4.TabIndex = 8
-        ' 
-        ' LblTotalSubs
-        ' 
-        LblTotalSubs.AutoSize = True
-        LblTotalSubs.Location = New Point(26, 21)
-        LblTotalSubs.Name = "LblTotalSubs"
-        LblTotalSubs.Size = New Size(121, 20)
-        LblTotalSubs.TabIndex = 0
-        LblTotalSubs.Text = "Total Subscribers"
-        ' 
-        ' dashboardSuperAdmin
+        ' SalesSuperAdmin
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1707, 821)
-        Controls.Add(PanelRound4)
-        Controls.Add(PanelRound3)
-        Controls.Add(PanelRound1)
-        Controls.Add(PanelRound2)
+        ClientSize = New Size(1816, 1095)
+        Controls.Add(LblSalesReport)
         Controls.Add(pnlMenu)
         Controls.Add(pnlHeader)
-        Margin = New Padding(3, 4, 3, 4)
-        Name = "dashboardSuperAdmin"
-        ShowIcon = False
-        StartPosition = FormStartPosition.CenterScreen
-        Text = "dashbordSuperAdmin"
-        WindowState = FormWindowState.Maximized
-        pnlHeader.ResumeLayout(False)
-        pnlHeader.PerformLayout()
+        Name = "SalesSuperAdmin"
+        Text = "SalesSuperAdmin"
+        CType(btnNotification, ComponentModel.ISupportInitialize).EndInit()
+        CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
         CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
         pnlSystemOnline.ResumeLayout(False)
         pnlSystemOnline.PerformLayout()
-        CType(btnNotification, ComponentModel.ISupportInitialize).EndInit()
         pnlMenu.ResumeLayout(False)
         pnlMenu.PerformLayout()
-        CType(PictureBox2, ComponentModel.ISupportInitialize).EndInit()
-        PanelRound2.ResumeLayout(False)
-        PanelRound2.PerformLayout()
-        PanelRound1.ResumeLayout(False)
-        PanelRound1.PerformLayout()
-        PanelRound3.ResumeLayout(False)
-        PanelRound3.PerformLayout()
-        PanelRound4.ResumeLayout(False)
-        PanelRound4.PerformLayout()
+        pnlHeader.ResumeLayout(False)
+        pnlHeader.PerformLayout()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
-
-    Friend WithEvents pnlHeader As Panel
-    Friend WithEvents lblDashboardSuperAdmin As Label
-    Friend WithEvents pnlMenu As Panel
-    Friend WithEvents overview As Label
-    Friend WithEvents btnNotification As PictureBox
-    Friend WithEvents pnlSystemOnline As PanelRound
-    Friend WithEvents systemOnline As Label
-    Friend WithEvents PictureBox1 As PictureBox
-    Friend WithEvents PictureBox2 As PictureBox
-    Friend WithEvents line As Label
-    Friend WithEvents DashboardBtn As Button
-    Friend WithEvents SalesBtn As Button
-    Friend WithEvents ServiceBtn As Button
-    Friend WithEvents InstallationBtn As Button
-    Friend WithEvents PayrollBtn As Button
-    Friend WithEvents InventoryBtn As Button
     Friend WithEvents PlansBtn As Button
     Friend WithEvents HistoryBtn As Button
     Friend WithEvents NetworkMapBtn As Button
     Friend WithEvents BillingBtn As Button
     Friend WithEvents SubscriberBtn As Button
-    Friend WithEvents PanelRound2 As PanelRound
-    Friend WithEvents PanelRound1 As PanelRound
-    Friend WithEvents PanelRound3 As PanelRound
-    Friend WithEvents PanelRound4 As PanelRound
-    Friend WithEvents LblPendingServices As Label
-    Friend WithEvents LblActiveInstallation As Label
-    Friend WithEvents LblMothlyRev As Label
-    Friend WithEvents LblTotalSubs As Label
+    Friend WithEvents btnNotification As PictureBox
+    Friend WithEvents overview As Label
+    Friend WithEvents lblSalesSuperAdmin As Label
+    Friend WithEvents systemOnline As Label
+    Friend WithEvents PayrollBtn As Button
+    Friend WithEvents InventoryBtn As Button
+    Friend WithEvents ServiceBtn As Button
+    Friend WithEvents InstallationBtn As Button
+    Friend WithEvents SalesBtn As Button
+    Friend WithEvents DashboardBtn As Button
+    Friend WithEvents line As Label
+    Friend WithEvents PictureBox2 As PictureBox
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents pnlSystemOnline As PanelRound
+    Friend WithEvents pnlMenu As Panel
+    Friend WithEvents pnlHeader As Panel
+    Friend WithEvents LblSalesReport As Label
 End Class
