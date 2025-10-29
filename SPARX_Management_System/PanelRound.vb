@@ -50,9 +50,13 @@ Public Class PanelRound
     ' Add this new override to set the region of the control
     Protected Overrides Sub OnResize(e As EventArgs)
         MyBase.OnResize(e)
-        Using path As GraphicsPath = GetRoundedRect(New Rectangle(0, 0, Me.Width, Me.Height), CornerRadius)
-            Me.Region = New Region(path)
-        End Using
+        
+        ' Skip region setting in design mode to avoid errors
+        If Not DesignMode AndAlso Me.Width > 0 AndAlso Me.Height > 0 Then
+            Using path As GraphicsPath = GetRoundedRect(New Rectangle(0, 0, Me.Width, Me.Height), CornerRadius)
+                Me.Region = New Region(path)
+            End Using
+        End If
     End Sub
 
 End Class

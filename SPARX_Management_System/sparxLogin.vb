@@ -1,187 +1,243 @@
-﻿Imports System.Collections.Specialized
-Imports System.Net
-Imports System.Text
+﻿Imports System.Text
 Imports System.Text.RegularExpressions
+Imports System.Configuration
+Imports System.Data
+Imports System.Net.Http
+Imports System.Threading.Tasks
 
-Imports SHA256 = System.Security.Cryptography.SHA256
-Imports MySql.Data.MySqlClient
+Imports MySqlConnector
+Imports BCrypt.Net
 
 Public Class sparxLogin
+    Private Const ROLE_SUPER_ADMIN As String = "Super Admin"
+    Private Const ROLE_ADMIN As String = "Admin"
+    Private Const ROLE_SUBSCRIBER As String = "Subscriber"
+    Private Const ROLE_CUSTOMER_SERVICE As String = "Customer Service"
+
+    Private selectedRole As String = ROLE_SUBSCRIBER
+
+    Private Shared ReadOnly http As New HttpClient()
+    Private Const API_URL As String = "http://127.0.0.1/sparx-api/login.php"
+
+    Private ReadOnly CONNECTION_STRING As String =
+        ConfigurationManager.ConnectionStrings("SparxDb").ConnectionString
+
     Private Sub sparxLogin_Load(sender As Object, e As EventArgs) Handles MyBase.Load, MyBase.Resize
-        ' Tip: You might want to set the default bold label here, for example:
-        ' UserRole_Click(btnSuperAdmin, Nothing)
+        http.Timeout = TimeSpan.FromSeconds(10)
+        Dim ok = TestConnection()
     End Sub
 
-    Private Sub lblWelcome_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub sparxLogo_Click(sender As Object, e As EventArgs) Handles sparxLogo.Click
-
-    End Sub
-
-    Private Sub Label2_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub lblPassword_Click(sender As Object, e As EventArgs) Handles lblPassword.Click
-
-    End Sub
-
-    Private Sub txtEmail_TextChanged(sender As Object, e As EventArgs) Handles txtEmail.TextChanged
-
-    End Sub
-
-    Private Sub txtPassword_TextChanged(sender As Object, e As EventArgs) Handles txtPassword.TextChanged
-
-    End Sub
-
-
-    Private Sub lnkForgot_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs)
-
-    End Sub
-
-    Private Sub chkRemember_CheckedChanged(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub pnlEmail_Paint(sender As Object, e As PaintEventArgs) Handles pnlEmail.Paint
-
-    End Sub
+    Private Function TestConnection() As Boolean
+        Try
+            Using conn As New MySqlConnection(CONNECTION_STRING)
+                conn.Open()
+                Return conn.State = ConnectionState.Open
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("DB connection failed: " & ex.Message)
+            Return False
+        End Try
+    End Function
 
     Private Sub picShowHide_Click(sender As Object, e As EventArgs) Handles picShowHide.Click
-        ' Check if the password is currently hidden
         If txtPassword.PasswordChar = "●" Then
-            ' --- SHOW THE PASSWORD ---
-
-            ' 1. Set the PasswordChar to a null character (which shows the text)
             txtPassword.PasswordChar = Chr(0)
-
-            ' 2. Change the image to the "open eye"
             picShowHide.Image = My.Resources.eye_open
         Else
-            ' --- HIDE THE PASSWORD ---
-
-            ' 1. Set the PasswordChar back to an asterisk
             txtPassword.PasswordChar = "●"
-
-            ' 2. Change the image back to the "slashed eye"
             picShowHide.Image = My.Resources.eye_slashed
         End If
     End Sub
 
     Private Sub pnlPassword_Paint(sender As Object, e As PaintEventArgs) Handles pnlPassword.Paint
-
     End Sub
 
-    ' --- This single method handles all three labels ---
-    Private Sub UserRole_Click(sender As Object, e As EventArgs) Handles btnSubscriber.Click, btnAdmin.Click, btnSuperAdmin.Click
+    Private Sub btnSuperAdmin_Click(sender As Object, e As EventArgs) Handles btnSuperAdmin.Click
+        selectedRole = ROLE_SUPER_ADMIN
+    End Sub
 
-        ' 1. Reset all three labels to the regular font style
-        '    (This keeps their original font and size)
+    Private Sub btnAdmin_Click(sender As Object, e As EventArgs) Handles btnAdmin.Click
+        selectedRole = ROLE_ADMIN
+    End Sub
+
+    Private Sub btnSubscriber_Click(sender As Object, e As EventArgs) Handles btnSubscriber.Click
+        selectedRole = ROLE_SUBSCRIBER
+    End Sub
+
+    Private Sub UserRole_Click(sender As Object, e As EventArgs) Handles btnSubscriber.Click, btnAdmin.Click, btnSuperAdmin.Click
         btnSuperAdmin.Font = New Font(btnSuperAdmin.Font, FontStyle.Regular)
         btnAdmin.Font = New Font(btnAdmin.Font, FontStyle.Regular)
         btnSubscriber.Font = New Font(btnSubscriber.Font, FontStyle.Regular)
 
-        ' 2. Get the specific label that was just clicked
         Dim clickedLabel = CType(sender, Label)
-
-        ' 3. Set ONLY the clicked label to bold
         clickedLabel.Font = New Font(clickedLabel.Font, FontStyle.Bold)
 
-        ' 4. Set lblUserLevel's text to match the text of the label that was clicked
+        lblWelcome.Text = "Welcome Back!"
+        btnSignup.Text = "Sign In"
         lblUserLevel.Text = clickedLabel.Text & " Login"
 
+        LblHAA.Visible = False
+        LinkBtnLogin.Visible = False
+
+        If clickedLabel Is btnSubscriber Then
+            LblDHA.Visible = True
+            LinkBtnSignup.Visible = True
+            lblAccess.Visible = False
+            lnkAdminContact.Visible = False
+            selectedRole = ROLE_SUBSCRIBER
+        ElseIf clickedLabel Is btnAdmin Then
+            LblDHA.Visible = False
+            LinkBtnSignup.Visible = False
+            lblAccess.Visible = True
+            lnkAdminContact.Visible = True
+            selectedRole = ROLE_ADMIN
+        Else
+            LblDHA.Visible = False
+            LinkBtnSignup.Visible = False
+            lblAccess.Visible = True
+            lnkAdminContact.Visible = True
+            selectedRole = ROLE_SUPER_ADMIN
+        End If
+    End Sub
+
+    Private Sub LinkBtnSignup_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkBtnSignup.LinkClicked
+        lblWelcome.Text = "Hello, Welcome!"
+        lblUserLevel.Text = "Subscriber Sign Up"
+        btnSignup.Text = "Sign Up"
+
+        LblDHA.Visible = False
+        LinkBtnSignup.Visible = False
+
+        LblHAA.Text = "Already Have Account?"
+        LinkBtnLogin.Text = "Log In"
+
+        LblHAA.Visible = True
+        LinkBtnLogin.Visible = True
+    End Sub
+
+    Private Sub LinkBtnLogin_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkBtnLogin.LinkClicked
+        UserRole_Click(btnSubscriber, Nothing)
+        lblWelcome.Text = "Welcome Back!"
+        btnSignup.Text = "Sign In"
+        LblHAA.Visible = False
+        LinkBtnLogin.Visible = False
     End Sub
 
     Private Sub lblUserLevel_Click(sender As Object, e As EventArgs) Handles lblUserLevel.Click
-
     End Sub
-
-    Private Sub PictureBox1_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub SplitContainer1_Panel1_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel1.Paint
-
-    End Sub
-
-    Private Sub SplitContainer1_Panel2_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel2.Paint
-
-    End Sub
-
-    Private Sub SplitContainer1_SplitterMoved(sender As Object, e As SplitterEventArgs) Handles SplitContainer1.SplitterMoved
-
-    End Sub
-
-    Private Sub pnlLoginCard_Paint(sender As Object, e As PaintEventArgs) Handles pnlLoginCard.Paint
-
-    End Sub
-
-    Private Sub ButtonRounded1_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Const API_URL As String = "http://10.37.52.111/sparx/api.php"
 
     Private Function IsValidEmail(ByVal email As String) As Boolean
-
         Dim pattern As String = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         Return Regex.IsMatch(email, pattern)
-
     End Function
 
-    Private Sub btnSignup_Click(sender As Object, e As EventArgs) Handles btnSignup.Click
-
-        Dim email As String = txtEmail.Text
+    Private Async Sub btnSignup_Click(sender As Object, e As EventArgs) Handles btnSignup.Click
+        Dim email As String = txtEmail.Text.Trim()
         Dim password As String = txtPassword.Text
 
-        If String.IsNullOrEmpty(email) And String.IsNullOrEmpty(password) Then
-            MsgBox("Please enter both an email and a password to sign up.")
+        If String.IsNullOrEmpty(email) AndAlso String.IsNullOrEmpty(password) Then
+            MessageBox.Show("Please enter both an email and a password to sign up.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
-
         ElseIf String.IsNullOrEmpty(email) Then
-            MsgBox("Please enter your email.")
+            MessageBox.Show("Please enter your email.", "Missing Email", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
-
         ElseIf String.IsNullOrEmpty(password) Then
-            MsgBox("Please enter your password.")
+            MessageBox.Show("Please enter your password.", "Missing Password", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
-
         End If
 
         If Not IsValidEmail(email) Then
-            MsgBox("Please enter a valid email address.")
+            MessageBox.Show("Please enter a valid email address.", "Invalid Email", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
 
-        Try
-            Using client As New WebClient()
-                Dim data As New NameValueCollection()
-                data.Add("action", "signup")
-                data.Add("email", email)
-                data.Add("password", password)
+        If btnSignup.Text = "Sign Up" Then
+            Dim form As New Dictionary(Of String, String) From {
+                {"action", "signup"},
+                {"email", email},
+                {"username", email},
+                {"password", password},
+                {"role", selectedRole}
+            }
+            Dim content = New FormUrlEncodedContent(form)
 
-                Dim responseBytes As Byte() = client.UploadValues(API_URL, "POST", data)
-                Dim responseString As String = Encoding.UTF8.GetString(responseBytes)
+            Try
+                Dim resp = Await http.PostAsync(API_URL, content)
+                Dim responseString = Await resp.Content.ReadAsStringAsync()
 
-                If responseString.Contains("""status"":""success""") Then
-                    MsgBox("Sign up successful!")
+                If Not resp.IsSuccessStatusCode Then
+                    MessageBox.Show("Server returned " & CInt(resp.StatusCode) & ": " & resp.ReasonPhrase, "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit Sub
+                End If
+
+                If responseString.Contains("""status"":""success""") OrElse responseString.Contains("""success"":true") Then
+                    MessageBox.Show("Sign up successful! Please log in.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    LinkBtnLogin_LinkClicked(LinkBtnLogin, Nothing)
                     txtEmail.Text = ""
                     txtPassword.Text = ""
-
                 Else
-                    MsgBox("Sign up failed: " & responseString)
-
+                    Dim messageMatch As Match = Regex.Match(responseString, """message"":""([^""]+)""")
+                    Dim errorMessage As String = If(messageMatch.Success, messageMatch.Groups(1).Value, "Sign up failed.")
+                    MessageBox.Show(errorMessage, "Sign Up Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
-            End Using
+            Catch ex As Exception
+                MessageBox.Show("Error connecting to server: " & ex.Message & " (Check XAMPP and URL: " & API_URL & ")", "Network Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        Else
+            Dim form As New Dictionary(Of String, String) From {
+                {"action", "login"},
+                {"email", email},
+                {"username", email},
+                {"password", password},
+                {"role", selectedRole}
+            }
+            Dim content = New FormUrlEncodedContent(form)
 
-        Catch ex As Exception
-            MsgBox("Error connecting to server: " & ex.Message)
-        End Try
+            Try
+                Dim resp = Await http.PostAsync(API_URL, content)
+                Dim responseString = Await resp.Content.ReadAsStringAsync()
+
+                If Not resp.IsSuccessStatusCode Then
+                    MessageBox.Show("Server returned " & CInt(resp.StatusCode) & ": " & resp.ReasonPhrase, "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit Sub
+                End If
+
+                If responseString.Contains("""status"":""success""") OrElse responseString.Contains("""success"":true") Then
+                    Dim roleMatch As Match = Regex.Match(responseString, """user_role"":""([^""]+)""")
+                    Dim userRole As String = If(roleMatch.Success, roleMatch.Groups(1).Value, "User")
+
+                    Select Case userRole
+                        Case ROLE_SUPER_ADMIN
+                            Dim dash As New dashboardSuperAdmin()
+                            ' dash.CurrentUserName = email   ' if you add this property
+                            ' dash.CurrentUserRole = userRole
+                            Me.Hide()
+                            dash.Show()
+                            AddHandler dash.FormClosed, Sub() Me.Close()
+
+                        Case ROLE_ADMIN
+            ' Dim f As New AdminDashboard() : Me.Hide() : f.Show()
+            ' AddHandler f.FormClosed, Sub() Me.Close()
+
+                        Case ROLE_CUSTOMER_SERVICE
+                            ' Dim f As New CustomerServiceDashboard() : Me.Hide() : f.Show()
+                            ' AddHandler f.FormClosed, Sub() Me.Close()
+
+                        Case Else
+                            ' Dim f As New SubscriberHome() : Me.Hide() : f.Show()
+                            ' AddHandler f.FormClosed, Sub() Me.Close()
+                    End Select
+                Else
+                    Dim messageMatch As Match = Regex.Match(responseString, """message"":""([^""]+)""")
+                    Dim errorMessage As String = If(messageMatch.Success, messageMatch.Groups(1).Value, "Login failed.")
+                    MessageBox.Show(errorMessage, "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+            Catch ex As Exception
+                MessageBox.Show("Error connecting to server: " & ex.Message & " (Check XAMPP is running and URL is correct: " & API_URL & ")", "Network Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Try
+        End If
     End Sub
 
-    Private Sub line_Click(sender As Object, e As EventArgs) Handles line.Click
-
+    Private Sub SplitContainer1_Panel2_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel2.Paint
     End Sub
 End Class
